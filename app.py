@@ -5,12 +5,14 @@ import psycopg2
 import psycopg2.extras
 from auth_middleware import token_required
 from auth_blueprint import authentication_blueprint
+from tasks_blueprint import tasks_blueprint
 
 
 app = Flask(__name__)
 CORS(app, resources={
      r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 app.register_blueprint(authentication_blueprint)
+app.register_blueprint(tasks_blueprint)
 
 
 def get_db_connection():
@@ -22,6 +24,10 @@ def get_db_connection():
     )
     return connection
 
+
+@app.route('/')
+def index():
+  return "Hello, world!"
 
 @app.route('/users')
 @token_required

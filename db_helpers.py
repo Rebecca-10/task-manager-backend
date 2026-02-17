@@ -10,3 +10,7 @@ def get_db_connection():
         password=os.getenv('POSTGRES_PASSWORD')
     )
     return connection
+
+def consolidate_tasks(tasks):
+    
+    return tasks
