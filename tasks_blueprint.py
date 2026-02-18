@@ -23,11 +23,11 @@ def tasks_index():
         """, (g.user["id"],))
 
         tasks = cursor.fetchall()
-        consolidated_tasks = consolidate_tasks(tasks)
+        
 
         connection.commit()
         connection.close()
-        return jsonify({"tasks": consolidated_tasks}), 200
+        return jsonify(tasks), 200
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500
@@ -49,22 +49,22 @@ def create_task():
         """, (
             new_task["user_id"],
             new_task["title"],
-            new_task.get("description"),
-            new_task.get("priority"),
-            new_task.get("due_date"),   
-            new_task.get("completed", False)
+            new_task["description"],
+            new_task["priority"],
+            new_task["due_date"],   
+            new_task["completed"]
         ))
 
         created_task = cursor.fetchone()
         connection.commit()
         connection.close()
 
-        return jsonify({"task": created_task}), 201
+        return jsonify(created_task), 201
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500
 
-@tasks_blueprint.route('/tasks/<int:task_id>', methods=['GET'])
+@tasks_blueprint.route('/tasks/<task_id>', methods=['GET'])
 @token_required
 def show_task(task_id):
     """
@@ -84,7 +84,7 @@ def show_task(task_id):
         connection.close()
 
         if task:
-            return jsonify({"task": task}), 200
+            return jsonify(task), 200
         else:
             return jsonify({"error": "Task not found"}), 404
 
@@ -130,7 +130,7 @@ def update_task(task_id):
         connection.commit()
         connection.close()
 
-        return jsonify({"task": updated_task}), 200
+        return jsonify(updated_task), 200
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500
@@ -159,7 +159,7 @@ def delete_task(task_id):
         connection.commit()
         connection.close()
 
-        return jsonify({"task": deleted_task}), 200
+        return jsonify(deleted_task), 200
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500
