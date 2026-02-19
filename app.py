@@ -9,8 +9,7 @@ from tasks_blueprint import tasks_blueprint
 
 
 app = Flask(__name__)
-CORS(app, resources={
-     r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+CORS(app)
 app.register_blueprint(authentication_blueprint)
 app.register_blueprint(tasks_blueprint)
 
@@ -56,7 +55,7 @@ def users_show(user_id):
 
 
 
-# app.run(debug=True, port=5000)
+
 if __name__ == "__main__":
-    app.run()
+   app.run()
 

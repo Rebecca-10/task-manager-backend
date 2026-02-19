@@ -67,9 +67,7 @@ def create_task():
 @tasks_blueprint.route('/tasks/<task_id>', methods=['GET'])
 @token_required
 def show_task(task_id):
-    """
-    Return a single task for the logged-in user.
-    """
+    
     try:
         connection = get_db_connection()
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -111,7 +109,7 @@ def update_task(task_id):
         if task_to_update["user_id"] != g.user["id"]:
             return jsonify({"error": "Unauthorized"}), 401
 
-        # Update the task
+       
         cursor.execute("""
             UPDATE tasks
             SET title = %s, description = %s, priority = %s, due_date = %s, completed = %s

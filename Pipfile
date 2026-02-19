@@ -12,6 +12,7 @@ python-dotenv = "*"
 bcrypt = "*"
 flask-cors = "*"
 cloudinary = "*"
+gunicorn = "*"
 
 [dev-packages]
 
